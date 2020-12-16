@@ -102,7 +102,7 @@
                 
                 // If the city contains a # (for cities entered as city, country where the comma was replaced for 
                 // saving to local storage), replace it with a comma for insertion to the api call
-                var city = city.replace("#", ",");
+                city = city.replace("#", ",");
 
                 getWeather(city);
             }
