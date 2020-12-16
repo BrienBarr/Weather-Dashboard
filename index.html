@@ -95,21 +95,19 @@
             // If statement to get the last city searched and get the weather for that city
             city = cities[cities.length-1];
             if (typeof city === "undefined"){
-                console.log("undefined");
 
             }
             else{
-                
                 // If the city contains a # (for cities entered as city, country where the comma was replaced for 
                 // saving to local storage), replace it with a comma for insertion to the api call
                 city = city.replace("#", ",");
 
+                // Call the function to get the weather for the last city searched
                 getWeather(city);
             }
             
-            // Jquery on click event handler and callback function for the search button
-            $("#searchBtn").click(function(event){
-                event.preventDefault();
+            // Function to grab value from search field and pass as the city to the function to get weather 
+            function searchCity(){
                 // if the search field is empty, return early
                 if(!$(".search").val()){
                     return;
@@ -122,7 +120,20 @@
                 $(".search").val("");
                 // Clear the city variable
                 city = "";
+            }
+
+            // Jquery on click event handler and callback function for the search button
+            $("#searchBtn").click(function(event){
+                event.preventDefault();
+                searchCity();
             })
+
+            // Keypress event handler to detect Enter button pressed to search for a city's weather
+            $(document).on('keypress',function(e) {
+                if(e.which == 13) {
+                    searchCity();
+                }
+            });
 
             // Jquery on click event handler and callback function for clicking one of the 
             // city names in the search history list to get the weather for that city
