@@ -130,6 +130,7 @@
 
             // Keypress event handler to detect Enter button pressed to search for a city's weather
             $(document).on('keypress',function(e) {
+                console.log(e.which);
                 if(e.which == 13) {
                     searchCity();
                 }
