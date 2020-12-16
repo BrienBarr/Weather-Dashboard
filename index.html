@@ -93,13 +93,13 @@
             popSearchHistory(cities);
             
             // If statement to get the last city searched and get the weather for that city
-            if (cities == []){
-                console.log("cities === []");
+            city = cities[cities.length-1];
+            if (typeof city === "undefined"){
+                console.log("undefined");
 
             }
             else{
-                console.log("There are cities");
-                city = cities[cities.length-1];
+                
                 // If the city contains a # (for cities entered as city, country where the comma was replaced for 
                 // saving to local storage), replace it with a comma for insertion to the api call
                 var city = city.replace("#", ",");
