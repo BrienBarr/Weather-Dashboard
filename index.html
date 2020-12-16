@@ -82,6 +82,14 @@
 
             getCities();
             popSearchHistory(cities);
+            if (cities === []){
+
+            }
+            else{
+                city = cities[cities.length-1];
+                city = city.replace("#", ",");
+                getWeather(city);
+            }
             
             $("#searchBtn").click(function(event){
                 event.preventDefault();
