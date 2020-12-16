@@ -20,17 +20,20 @@
         <div class="container">
             <div class="row main">
                 <div class="col-lg-4">
-                    <!-- search bar -->
+
+                    <!-- Search bar -->
                     <div class="row">
                         <h4>Search for a City:</h4>
                         <input class="form-control search" type="text">
                         <button class="btn btn-primary" id="searchBtn"><i class="fas fa-search"></i></button>
                     </div>
+
                     <!-- list of cities -->
                     <div class="row">
                         <ul class="list-group" id="search-history">
                         </ul>
                     </div>
+
                 </div>
 
                 <div class="col-lg-8">
@@ -53,6 +56,7 @@
 
         <script>
 
+            // Get the saved cities from local storage
             var savedCities = localStorage.getItem("cities");
             if (!savedCities){
                 var cities = [];
@@ -61,6 +65,7 @@
                 cities = savedCities.split(",");
             }
 
+            // Function to get the saved cities from local storage
             function getCities(){
                 var savedCities = localStorage.getItem("cities");
                 if (!savedCities){
@@ -72,6 +77,7 @@
                 return (cities);
             }
 
+            // Function to populate the search history list with the cities searched
             function popSearchHistory(cities){
                 cities.forEach(element => {
                     element = element.replace("#", ",");
@@ -80,80 +86,125 @@
                 });
             }
 
+            // Call the function to get the saved cities from local storage
             getCities();
+
+            // Call the function to populate the search history list with the cities searched
             popSearchHistory(cities);
+
+            // If statement to see if the cities searched array is empty, and if so, do nothing
             if (cities === []){
 
             }
+            // Else if statement to get the last city searched and get the weather for that city
             else{
                 city = cities[cities.length-1];
+                // If the city contains a # (for cities entered as city, country where the comma was replaced for 
+                // saving to local storage), replace it with a comma for insertion to the api call
                 city = city.replace("#", ",");
                 getWeather(city);
             }
             
+            // Jquery on click event handler and callback function for the search button
             $("#searchBtn").click(function(event){
                 event.preventDefault();
+                // if the search field is empty, return early
                 if(!$(".search").val()){
                     return;
                 }
+                // Store the value from the search field to the city variable
                 var city = $.trim($(".search").val());
+                // Call the function to get the weather for the city 
                 getWeather(city);
                 // Clear the search box
                 $(".search").val("");
+                // Clear the city variable
                 city = "";
             })
 
+            // Jquery on click event handler and callback function for clicking one of the 
+            // city names in the search history list to get the weather for that city
             $("#search-history").on("click", ".list-group-item", function(event){
                 var city = $(this).attr("data-city");
                 getWeather(city);
             })
 
-            // Get the current weather for the city
+            // Function to get the current weather for the city
             function getWeather(city){
                 $(".current").empty();
                 $(".forecast").empty();
                 
+                // Store the api key for the openweathermap api to the apiKey variable
                 var apiKey = "65b73451e88761eef782755b5eee3ad9";
+                // Store the api url to get the current weather for a city to the currentURL variable
                 var currentURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey;
 
+                // Ajax call to the api to get the current weather for a city
                 $.ajax({
                     url: currentURL,
                     method: "GET",
+                    // Error method for cities not found
                     error: function (){
                         var errDiv = $("<div class='card-body'>").html("<h2 class='card-title'>City Not Found</h2>");
                         $(".current").append(errDiv);
                         $(".current").css("visibility", "visible");
                     }
                 })
+                // Deferred callback function
                 .then(function(response){ 
+                    // If the city contains a comma (where the user searches for a city + country separated by a comma),
+                    // replace the comma with a #
                     city = city.replace(",", "#");
+                    // If the cities array (i.e. the array which is stored to local storage for the search history) 
+                    // does not contain the city for which this call is getting the weather
                     if (cities.indexOf(city) === -1){
+                        // If the city contains a #, replace it with a comma for insertion into the search history list
                         city = city.replace("#", ",");
+                        // Call the function to add the city to the search history list
                         addToSearchHistory(city); 
                     }
+                    // If the city contains a #, replace it with a comma for insertion into the current weather display
                     city = city.replace("#", ",");
-                                      
+                    
+                    // Create the card body to display the city's current weather
                     var currWeather = $("<div class='card-body'>");
+                    // Store the weather representation icon to the iconCode variable
                     var iconCode = response.weather[0].icon;
+                    // Convert the response date (i.e. time) to time in milliseconds and store it to the time variable
                     var time = response.dt * 1000;
+                    // Get the date from time in milliseconds, convert it to a readable locale date string and store it to the date variable
                     var date = new Date(time).toLocaleDateString();
+                    // Convert the date to a string
                     date = date.toString();
+                    // Create an h2 element that contains the city name, date, and weather representation icon and store it to the cityName variable
                     var cityName = $("<h2>").html(city + " (" + date + ") <img src='http://openweathermap.org/img/w/" + iconCode + ".png'>");
+                    // Create a p element that displays the current temperature and store it to the temp variable
                     var temp = $("<p>").text("Temperature: " + Math.round(parseInt(response.main.temp)) + "°F");
+                    // Create a p element that displays the current humidity level and store it to the humidity variable
                     var humidity = $("<p>").text("Humidity: " + response.main.humidity + "%");
+                    // Create a p element that displays the current wind speed and store it to the wind variable
                     var wind = $("<p>").text("Wind Speed: " + response.wind.speed + " MPH");
+
+                    // Get the latitude and longitude for the city to pass in the next ajax call to the forecast api
                     var lat = response.coord.lat;
                     var lon = response.coord.lon;
+                    // Set the api url to get the forecast for the city
                     var forecastURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&exclude=current,minutely,hourly,alerts&appid=" + apiKey;
-                    // Get the 5-day forecast for the city
+                    
+                    // Ajax call to get the 5-day forecast for the city
                     $.ajax({
                     url: forecastURL,
                     method: "GET"
                     })
+                    // Deferred callback function
                     .then(function(response){
+                        // Create a p element to display the city's UV Index and store it to the uv variable
                         var uv = $("<p>").text("UV Index: ");
+                        // Store the city's UV Index from the response to the uvi variable
                         var uvi =  response.daily[0].uvi;
+                        // Create a span element to display the UV Index for the city and store it to the uvSpan variable
                         var uvSpan = $("<span>").attr("id", "uvSpan");
+                        // Add the appropriate class to the uvSpan depending upon the city's UV index level
                         if (uvi < 3){
                             uvSpan.addClass("lowUV");
                         }
@@ -167,15 +218,21 @@
                             uvSpan.addClass("veryHighUV");
                         }
                         
+                        // Append the uv p element with the uvSpan displaying the city's UV Index from the response
                         uv.append(uvSpan.text(uvi));
                         
+                        // Append the current weather card body with the city name, temp, humidity, wind speed, and UV Index
                         currWeather.append(cityName, temp, humidity, wind, uv);
 
+                        // Append the current weather card with the card body and make the current weather card visible
                         $(".current").append(currWeather);
                         $(".current").css("visibility", "visible");
 
+
+                        // Append the forecast row div with the 5-Day Forecast: h3 heading
                         $(".forecast").append("<h3>5-Day Forecast:</h3><br>");
 
+                        // For loop to create a card to display date, icon, temp, and humidity of each of the five days in the forecast 
                         for (i = 1; i < 6; i++){
                             $(".forecast").append("<div class='card text-white bg-primary mb-3 day col-sm-2' id='day" + i + "'>");
                             $("#day" + i).append("<div class='card-body' id='day" + i + "body'>");
@@ -191,24 +248,33 @@
                             $("#day" + i + "body").append(iconDiv, tempDiv, humDiv);
                             
                         }
+                        // Make the forecast row div visible
                         $(".forecast").css("visibility", "visible");
                     })
                 })
             }
 
+            // Function to add the city to the search history saved to local storage
             function addToSearchHistory(city){
                 // Add the city to the search history list
                 var history = $("#search-history").contents();
-                console.log(history);
                 var newListItem = $("<li>").addClass("list-group-item").attr("data-city", city).text(city);
                 $("#search-history").prepend(newListItem);
+
+                // If the city contains a comma, replace it with a #
                 city = city.replace(",", "#");
                 
+                // Call the function to get the cities saved to local storage for search history
                 getCities();
+                // Add the current city to the array storing the saved cities
                 cities.push(city);
+                // Convert the array to a string
                 cities = cities.toString();
+                // Store the cities to local storage
                 localStorage.setItem("cities", cities);
+                // Convert the cities back to an array
                 cities = cities.split(",");
+                // Clear out the current city variable
                 city = "";
             }
         </script>
