@@ -91,13 +91,9 @@
 
             // Call the function to populate the search history list with the cities searched
             popSearchHistory(cities);
-            console.log(cities);
-            // If statement to see if the cities searched array is empty, and if so, do nothing
-            if (cities === [] || !cities || cities === "undefined"){
-
-            }
-            // Else if statement to get the last city searched and get the weather for that city
-            else{
+            
+            // If statement to get the last city searched and get the weather for that city
+            if (cities){
                 city = cities[cities.length-1];
                 // If the city contains a # (for cities entered as city, country where the comma was replaced for 
                 // saving to local storage), replace it with a comma for insertion to the api call
