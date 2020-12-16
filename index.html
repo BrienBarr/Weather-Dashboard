@@ -101,9 +101,9 @@
                 else{
                     // If the city contains a # (for cities entered as city, country where the comma was replaced for 
                     // saving to local storage), replace it with a comma for insertion to the api call
-                    var lastCity = city.replace("#", ",");
+                    var city = city.replace("#", ",");
                 }
-                getWeather(lastCity);
+                getWeather(city);
             }
             
             // Jquery on click event handler and callback function for the search button
