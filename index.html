@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Weather Dashboard</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link
@@ -17,7 +18,7 @@
             <h1>Weather Dashboard</h1>
         </header>
         <div class="container">
-            <div class="row">
+            <div class="row main">
                 <div class="col-lg-4">
                     <!-- search bar -->
                     <div class="row">
@@ -130,7 +131,7 @@
                     var date = new Date(time).toLocaleDateString();
                     date = date.toString();
                     var cityName = $("<h2>").html(city + " (" + date + ") <img src='http://openweathermap.org/img/w/" + iconCode + ".png'>");
-                    var temp = $("<p>").text("Temperature: " + Math.round(parseInt(response.main.temp)) + " °F");
+                    var temp = $("<p>").text("Temperature: " + Math.round(parseInt(response.main.temp)) + "°F");
                     var humidity = $("<p>").text("Humidity: " + response.main.humidity + "%");
                     var wind = $("<p>").text("Wind Speed: " + response.wind.speed + " MPH");
                     var lat = response.coord.lat;
@@ -165,7 +166,7 @@
                         $(".current").append(currWeather);
                         $(".current").css("visibility", "visible");
 
-                        $(".forecast").append("<h3 style='width: 100%'>5-Day Forecast:</h3><br>");
+                        $(".forecast").append("<h3>5-Day Forecast:</h3><br>");
 
                         for (i = 1; i < 6; i++){
                             $(".forecast").append("<div class='card text-white bg-primary mb-3 day col-sm-2' id='day" + i + "'>");

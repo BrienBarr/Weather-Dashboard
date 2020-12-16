@@ -9,25 +9,38 @@ header {
     padding: 10px;
 }
 
+h3 {
+    width: 100%;
+    margin-left: 10px;
+}
+
+h4 {
+    margin-right: 10px;
+}
+
+h5 {
+    font-size: 1.0rem;
+}
+
 .container {
     width: 90%;
     margin-top: 10px;
     
 }
 
+.main {
+    width: 95%;
+}
+
 .search {
-    width: 250px;
+    width: 245px;
+    margin-right: 5px;
 }
 
 .btn {
     width: 50px;
     color: #eee;
 }
-
-/* .btn:hover{
-    outline: none;
-    border: 1px solid #437fff;
-} */
 
 .list-group {
     margin-top: 10px;
@@ -47,9 +60,13 @@ header {
 }
 
 .day {
-    width: 20%;
+    width: 120px;
     margin: 20px 10px;
     padding: 0;
+}
+
+.day .card-body {
+    padding: 10px;
 }
 
 .lowUV{
@@ -73,4 +90,30 @@ header {
 .lowUV, .moderateUV, .highUV, .veryHighUV {
     border-radius: 5px;
     padding: 5px;
+}
+
+@media (max-width: 1199px) {
+    .search {
+        width: 200px;
+    }
+}
+
+@media (max-width: 991px) {
+    .current {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 560px) {
+    h4 {
+        margin-right: 60px;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 1199px) {
+    .day {
+        width: 120px;
+        flex: 0 0 120px; 
+        max-width: 120px;
+    }
 }
