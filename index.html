@@ -37,19 +37,11 @@
                     <!-- current weather -->
                     <div class="row">
                         <div class="card current" style="visibility: hidden;">
-                            <div class="card-body">
-                              <h2 class="card-title">City</h2>
-                              <p id="temp">Temperature</p>
-                              <p id="humidity">Humidity</p>
-                              <p id="wind">Wind Speed</p>
-                              <p id="uv">UV Rating</p>
-                            </div>
                         </div>
                     </div>
 
                     <!-- 5-day forecast -->
                     <div class="row forecast" style="visibility: hidden">
-                        
                     </div>
 
                 </div>
@@ -92,9 +84,11 @@
             
             $("#searchBtn").click(function(event){
                 event.preventDefault();
+                if(!$(".search").val()){
+                    return;
+                }
                 var city = $.trim($(".search").val());
                 getWeather(city);
-                addToSearchHistory(city);
                 // Clear the search box
                 $(".search").val("");
                 city = "";
@@ -122,7 +116,14 @@
                         $(".current").css("visibility", "visible");
                     }
                 })
-                .then(function(response){                    
+                .then(function(response){ 
+                    city = city.replace(",", "#");
+                    if (cities.indexOf(city) === -1){
+                        city = city.replace("#", ",");
+                        addToSearchHistory(city); 
+                    }
+                    city = city.replace("#", ",");
+                                      
                     var currWeather = $("<div class='card-body'>");
                     var iconCode = response.weather[0].icon;
                     var time = response.dt * 1000;
@@ -188,6 +189,8 @@
 
             function addToSearchHistory(city){
                 // Add the city to the search history list
+                var history = $("#search-history").contents();
+                console.log(history);
                 var newListItem = $("<li>").addClass("list-group-item").attr("data-city", city).text(city);
                 $("#search-history").prepend(newListItem);
                 city = city.replace(",", "#");
