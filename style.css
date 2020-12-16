@@ -1,7 +1,9 @@
+/* Styling for the body */
 body {
     font-family: Helvetica, sans-serif;
 }
 
+/* Styling for the header element */
 header {
     color: #eee;
     background-color: #252525;
@@ -9,107 +11,127 @@ header {
     padding: 10px;
 }
 
+/* Styling for h3 elements */
 h3 {
     width: 100%;
     margin-left: 10px;
 }
 
+/* Styling for h4 elements */
 h4 {
     margin-right: 10px;
 }
 
+/* Styling for h5 elements */
 h5 {
     font-size: 1.0rem;
 }
 
+/* Styling for the container class items */
 .container {
     width: 90%;
     margin-top: 10px;
-    
 }
 
+/* Styling for the main class items */
 .main {
     width: 95%;
 }
 
+/* Styling for the search class items */
 .search {
     width: 245px;
     margin-right: 5px;
 }
 
+/* Styling for the btn class items (i.e. buttons) */
 .btn {
     width: 50px;
     color: #eee;
 }
 
+/* Styling for the list-group class items */
 .list-group {
     margin-top: 10px;
     width: 400px;
 }
 
+/* Styling for the current class items */
 .current {
     margin-top: 15px;
     margin-left: 20px;
     width: 100%;
 }
 
+/* Styling for the forecast class items */
 .forecast {
     width: 100%;
     margin-left: 5px;
     margin-top: 10px;
 }
 
+/* Styling for the day class items */
 .day {
     width: 120px;
     margin: 20px 10px;
     padding: 0;
 }
 
+/* Styling for the card-body class items within the day class items */
 .day .card-body {
     padding: 10px;
 }
 
+/* Styling for the lowUV class items */
 .lowUV{
     background-color: green;
     color: white;
 }
 
+/* Styling for the moderateUV class items */
 .moderateUV{
     background-color: yellow;
 }
 
+/* Styling for the highUV class items */
 .highUV{
     background-color: orange;
 }
 
+/* Styling for the veryHighUV class items */
 .veryHighUV{
     background-color: red;
     color: white;
 }
 
+/* Styling for the lowUV, moderateUV, highUV, and veryHighUV class items */
 .lowUV, .moderateUV, .highUV, .veryHighUV {
     border-radius: 5px;
     padding: 5px;
 }
 
+/* @media query for screens up to 1199 pixels in width */
 @media (max-width: 1199px) {
     .search {
         width: 200px;
     }
 }
 
+/* @media query for screens up to 991 pixels in width */
 @media (max-width: 991px) {
     .current {
         margin-left: 0;
     }
 }
 
+/* @media query for screens up to 560 pixels in width */
 @media (max-width: 560px) {
     h4 {
         margin-right: 60px;
     }
 }
 
+/* @media query for screens at least 300 pixels in width and up to 1199 pixels in width */
 @media (min-width: 300px) and (max-width: 1199px) {
     .day {
         width: 120px;
