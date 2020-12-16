@@ -94,9 +94,11 @@
             
             // If statement to get the last city searched and get the weather for that city
             if (cities === []){
-                
+                console.log("cities === [}");
+                return;
             }
             else{
+                console.log("There are cities");
                 city = cities[cities.length-1];
                 // If the city contains a # (for cities entered as city, country where the comma was replaced for 
                 // saving to local storage), replace it with a comma for insertion to the api call
