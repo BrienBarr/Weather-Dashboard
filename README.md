@@ -25,3 +25,12 @@ The following image demonstrates the application functionality:
 ## Live Application
 
 [See the weather dashboard in action here!](https://brienbarr.github.io/Weather-Dashboard/)
+
+## Languages and Technologies Used
+
+- HTML
+- CSS
+- Javascript
+- JQuery
+- API calls
+
