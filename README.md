@@ -34,3 +34,5 @@ The following image demonstrates the application functionality:
 - JQuery
 - API calls
 
+Contact me at: <barrdom@hotmail.com>
+
